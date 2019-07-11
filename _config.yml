@@ -9,8 +9,7 @@ permalink:        pretty
 title:            Wizard Union 
 tagline:          'Posts/Notes from time to time.'
 description:      "A Programmer's Nocences. :)"
-url:              http://posts.tanki.ninja
-baseurl:          "//"
+url:              http://posts.tanki.ninja/
 
 author:
   name:           'Tanki Zhang'
