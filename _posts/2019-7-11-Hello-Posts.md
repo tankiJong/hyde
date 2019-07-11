@@ -57,29 +57,14 @@ Test a display math with equation number:
 \end{equation}
 Is it O.K.?
 
-Test a display math with equation number:
+Test a display math with equation number in \eqref{eq:eq2}:
 $$
   \begin{align}
     |\psi_1\rangle &= a|0\rangle + b|1\rangle \\\\
     |\psi_2\rangle &= c|0\rangle + d|1\rangle
+    \label{eq:eq2}
   \end{align}
 $$
-Is it O.K.?
-
-And test a display math without equaltion number:
-$$
-  \begin{align\*}
-    |\psi_1\rangle &= a|0\rangle + b|1\rangle \\\\
-    |\psi_2\rangle &= c|0\rangle + d|1\rangle
-  \end{align\*}
-$$
-Is it O.K.?
-
-Test a display math with equation number:
-\begin{align}
-    |\psi_1\rangle &= a|0\rangle + b|1\rangle \\\\
-    |\psi_2\rangle &= c|0\rangle + d|1\rangle
-\end{align}
 Is it O.K.?
 
 And test a display math without equaltion number:
