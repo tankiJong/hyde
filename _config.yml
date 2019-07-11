@@ -10,7 +10,7 @@ title:            Wizard Union
 tagline:          'Posts/Notes from time to time.'
 description:      "A Programmer's Nonsense. :)"
 url:              http://posts.tanki.ninja/
-
+excerpt_separator: <!--more-->
 author:
   name:           'Tanki Zhang'
   url:            https://twitter.com/tankiistanki
