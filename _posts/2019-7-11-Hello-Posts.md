@@ -39,7 +39,7 @@ Hyde is developed on and hosted with GitHub. Head to the <a href="https://github
 Thanks!
 
 
-### ![Math Test](https://haixing-hu.github.io/programming/2013/09/20/how-to-use-mathjax-in-jekyll-generated-github-pages/)
+### [Math Test](https://haixing-hu.github.io/programming/2013/09/20/how-to-use-mathjax-in-jekyll-generated-github-pages/)
 
 Let's test some inline math $x$, $y$, $x_1$, $y_1$.
 
