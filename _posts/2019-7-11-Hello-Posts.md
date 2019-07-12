@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introducing Hyde
+title: Content Test
 ---
 
 ## Markdown support as the original framework.

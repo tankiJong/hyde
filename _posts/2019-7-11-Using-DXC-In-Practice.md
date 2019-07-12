@@ -8,13 +8,13 @@ In my recent project, I wanted to build my own shader pipelines which requires m
 
 ## Getting Started
 
-To DXC in your own project, we need three things: `dxcompiler.dll` and `dxil.dll` for running and header files for compiling. To get it, you can manually build the source files from the repo or install the latest Windows Dev Kit(I had 17763). For WDK, the dlls are located at `C:\Program Files (x86)\Windows Kits\10\bin\<version#>\x64`, be aware the prefix path may vary for you. When you test your code, make sure that you set up the environment and double check they are avaible at runtime to your executable file.
+To use DXC in your own project, we need three things: `dxcompiler.dll` and `dxil.dll` for running and header files for compiling. To get it, you can manually build the source files from the repo or install the latest Windows Dev Kit(I had 17763). For WDK, the dlls are located at `C:\Program Files (x86)\Windows Kits\10\bin\<version#>\x64`, be aware the prefix path may vary for you. When you test your code, make sure that you set up the environment and double check they are avaible at runtime to your executable file.
 
-![Checking dll available](public/images/19-7-11-dxcompiler-available.png)
+![Checking dll available](/public/images/19-7-11-dxcompiler-available.png)
 
 For header files, the WDK only has `dxcapi.h`, which is not enough for my cases. I recommend for now, get the header files from the official repo and make them all available to your project.
 
-MS provided a [bridge dll](https://github.com/microsoft/DirectXShaderCompiler/wiki/D3DCompiler-DXC-Bridge), but only with limited features. But it's a great reference to start with. The source code is [here](https://github.com/microsoft/DirectXShaderCompiler/blob/master/tools/clang/tools/d3dcomp/d3dcomp.cpp). where is the source of the most of code I will post here.
+MS provided a [bridge dll](https://github.com/microsoft/DirectXShaderCompiler/wiki/D3DCompiler-DXC-Bridge), but only with limited features. But it's a great reference to start with. The source code is [here](https://github.com/microsoft/DirectXShaderCompiler/blob/master/tools/clang/tools/d3dcomp/d3dcomp.cpp). which is the reference of the most of code I will post here.
 
 To start with, you need to include `dxc/include/dxc/Support/dxcapi.use.h`, where it provides a nice wrapper to load in DLL and some core functions. This should be something global and only have one.
 ```cpp
@@ -51,7 +51,7 @@ if(SUCCEEDED( hr )) {
 }                 
 ```
 
-The `Compile` function is pretty straightforward. You can basically maps all arguments to `D3DCompile`. After compilation, the byte code is available in the blob and is the equivalent to the ones from the `D3DCompiler`... not exact the same actually. Remember when we setting up the environment, we need two dlls, the one is `dxcompiler.dll`, which is the library for the compiler obviously. `dxil.dll` is also a important part. If you don't have it during runtime, you will get an error like this:
+The `Compile` function is pretty straightforward. You can basically maps all arguments to `D3DCompile`. After compilation, the byte code is available in the blob and is the equivalent to the ones from the `D3DCompiler`... not exact the same actually. Remember when we setting up the environment, we need two dlls, the one is `dxcompiler.dll`, which is the library for the compiler obviously. But `dxil.dll` is also a important part. If you don't have it during runtime, you will get an error like this:
 
 > D3D12 ERROR: ID3D12Device::CreateVertexShader: Vertex Shader is corrupt or in an unrecognized format. [ STATE_CREATION ERROR #322: CREATEVERTEXSHADER_INVALIDSHADERBYTECODE]
 
@@ -87,12 +87,12 @@ Creating reflection object is very similar:
    assert_win( support.CreateInstance( CLSID_DxcContainerReflection, &pReflection ) );
    assert_win( support.CreateInstance( CLSID_DxcLibrary, &pLibrary ) );
 
-   assert_win( pReflection->Load(&pBlob) );
-   assert_win( pReflection->FindFirstPartKind(hlsl::DFCC_DXIL, &shaderIdx) );
-   assert_win( pReflection->GetPartReflection(shaderIdx, IID_PPV_ARGS(&pShaderReflection)) );
+   assert_win( pReflection->Load( &pBlob ) );
+   assert_win( pReflection->FindFirstPartKind( hlsl::DFCC_DXIL, &shaderIdx ) );
+   assert_win( pReflection->GetPartReflection( shaderIdx, IID_PPV_ARGS(&pShaderReflection )) );
 ```
 
-There are two things may potentially bring confusion. If you were using `dxcapi.h` from WDK only, you would not be able to do that. Because `hlsl::DFCC_DXIL` is defined in `dxc/DxilContainer/DxilContainer.h`. The second thing is more related to Visual Studio. VS has a built-in HLSL compiler, which can compile shader files of SM6 and can be avaiable as header files or binary files. But you will not be able to feed these binary files(even they are SM6) into `IDxcContainerReflection` and it will complain. I am not sure the reason, but I would appreciate it if someone can clarify this :).
+There are two things may potentially bring confusion. If you were using `dxcapi.h` from WDK only, you would not be able to compile this code. Because `hlsl::DFCC_DXIL` is defined in `dxc/DxilContainer/DxilContainer.h`. The second thing is more related to Visual Studio. VS has a built-in HLSL compiler, which can compile shader files of SM6 and can be avaiable as header files or binary files. But you will not be able to feed these binary files(even they are SM6) into `IDxcContainerReflection` and it will complain. I am not sure the reason, but I would appreciate it if someone can clarify this :).
 
 ## Create Root Signature from Shader
 
